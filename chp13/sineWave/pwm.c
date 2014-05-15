@@ -6,7 +6,8 @@
 #include <prussdrv.h>
 #include <pruss_intc_mapping.h>
 #include <math.h>
-
+#define SAMPLE          100
+#define TIMEPERIOD_SINE 100
 #define PRU_NUM 	0
 static void *pru0DataMemory;
 static unsigned int *pru0DataMemory_int;
@@ -42,10 +43,10 @@ int main (void)
    // place the samples in memory
    prussdrv_map_prumem(PRUSS0_PRU0_DATARAM, &pru0DataMemory);
    pru0DataMemory_int = (unsigned int *) pru0DataMemory;
-   unsigned int sampletimestep = 1;  //delay factor
+   unsigned int sampletimestep = (unsigned int)(TIMEPERIOD_SINE/SAMPLE)*100;  //delay factor
    *(pru0DataMemory_int) = sampletimestep;
    unsigned int numbersamples = 100;  //number of samples
-   *(pru0DataMemory_int+1) = numbersamples;
+   *(pru0DataMemory_int+1) = numbersamples-1;
    // copy the waveform data into PRU memory
    for (i=0; i<numbersamples; i++){
       *(pru0DataMemory_int+2+i) = waveform[i];
