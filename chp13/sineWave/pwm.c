@@ -35,7 +35,7 @@ int main (void)
    float gain = 50.0f;
    float phase = 0.0f;
    float bias = 50.0f;
-   float freq = 2.0f * 3.14159f / 100.0f;
+   float freq = 2.0f * 3.14159f / SAMPLE;
    for (i=0; i<100; i++){
       waveform[i] = (unsigned int)(bias + (gain * sin((i * freq) + phase)));
    }
