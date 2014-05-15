@@ -45,7 +45,7 @@ LESSTHAN100:
 
 	// This is for a single sample:
 	MOV	r4, r1		   // number of steps high
-	SET	r30.t5	           // set the output P9_27 high
+	SET	r30.t3	           // set the output P9_28 high
 SIGNAL_HIGH:
 	MOV	r0, r2		   // delay how long? load r2 above
 DELAY_HIGH:
@@ -56,7 +56,7 @@ DELAY_HIGH:
 
 	// Now the signal is going to go low for 100%-r1% - i.e. r3
 	MOV	r4, r3		   // number of steps low loaded
-	CLR	r30.t5	           // set the output P9_27 low
+	CLR	r30.t3	           // set the output P9_28 low
 SIGNAL_LOW:
 	MOV	r0, r2		   // delay how long? load r2 above
 DELAY_LOW:
@@ -65,7 +65,7 @@ DELAY_LOW:
 	SUB	r4, r4, 1          // the signal was low for a step
 	QBNE	SIGNAL_LOW, r4, 0  // repeat until signal low % is done
 
-	QBBS	END, r31.t3        // quit if button on P9_28 is pressed
+	QBBS	END, r31.t5        // quit if button on P9_27 is pressed
 	// Go to the next sample
 	ADD	r6, r6, 1	   // increment the counter by 1
 	QBA	SAMPLELOOP         // otherwise loop forever
