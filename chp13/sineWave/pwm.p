@@ -15,28 +15,36 @@ START:
 	LBBO	r2, r0, 0, 4	   //load the step delay value into r2
 	// r5 - Load the number of samples
 	MOV	r0, 0x00000004	   //load the memory location
+     
 	LBBO	r5, r0, 0, 4	   //load the number of samples into r5
+        MOV     r9, r5
+        SUB     r5, r5, 51
 	MOV	r6, 0	           //r6 is the counter 0 to r5
 	MOV	r7, 0x00000008	   //load the memory location
 
 SAMPLELOOP:
 	//Is the counter r6  >= the number of samples r5, if so go back to 0
 	//If r6 < r5 then just continue, else set back to 0
-
+	MOV     r8,  2000
+        MOV     r18, 2000 
+        QBLT    CONTINUEONE, r5, r6
+        QBLT    CONTINUETWO, r9 , r6
         QBLT	CONTINUE, r5, r6 
         MOV	r7, 0x00000008
         MOV	r6, 0	           //loop all over again
-CONTINUE:
+CONTINUEONE:
+        SET     r30.t0
+        CLR     r30.t1
 	// r1 - Read the PWM percent high (0-100)
 	ADD	r7, r7, 4 
 	LBBO	r1, r7, 0, 4	   //load the percent value into r1
 
 	//check that the value is between 1 and 99
-	QBLT	GREATERTHANZERO, r1, 0
-        MOV	r1, 1
+	QBLT	GREATERTHANZERO, r1, 5
+        MOV	r1, 0
 GREATERTHANZERO:
-        QBGT	LESSTHAN100, r1, 100
-	MOV	r1, 99
+        QBGT	LESSTHAN100, r1, 95
+	MOV	r1, 100
 LESSTHAN100:
 
 	// r3 - The PWM precent that the signal is low (100-r1)
